@@ -13,15 +13,14 @@ export class ProductService {
     }
 
     public async getProducts():Promise<Product[]>{
-        const prod =  getRepository(Product).find();
-        
+        const prod =  await getRepository(Product).find();
         return prod;
     }
 
     public async getSingleProduct(id:number){
        
         const singleProduct=getRepository(Product).findOne(id);
-        
+
         return singleProduct;
         
     }

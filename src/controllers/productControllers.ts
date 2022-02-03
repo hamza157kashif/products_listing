@@ -28,8 +28,7 @@ export class ProductController{
     @Get('/products')
     async getAll(@Res() res: Response){
         const product = await service.getProducts();
-       // console.log(prod);
-        
+        console.log(product);
         return res.json(product);
     }
     @Get('/products/:id')
