@@ -22,10 +22,12 @@
   "homepage": "https://github.com/hamza157kashif/products_listing#readme",
   "dependencies": {
     "@types/express": "^4.17.13",
+    "aws-sdk": "^2.1069.0",
     "body-parser": "^1.19.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "multer": "^1.4.4",
     "pg": "^8.7.1",
@@ -36,6 +38,7 @@
     "typeorm": "^0.2.41"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12"
+    "@types/cors": "^2.8.12",
+    "@types/multer": "^1.4.7"
   }
 }
