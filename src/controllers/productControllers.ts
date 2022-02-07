@@ -33,8 +33,6 @@ const S3 = require("aws-sdk/clients/s3");
 // const secretAccessKey = process.env.AWS_SECRET_KEY;
 
 const region = "us-east-1";
-const accessKeyId = "AKIAT67EESFVKELN64HN";
-const secretAccessKey = "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";
 
 const s3 = new S3({
   region,
