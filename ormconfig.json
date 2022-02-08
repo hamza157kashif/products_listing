@@ -1,0 +1,12 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "hamza",
+  "database": "productLists",
+  "migrations": ["src/db/migration/*.js"],
+  "cli": {
+    "migrationsDir": "src/db/migration"
+  }
+}
