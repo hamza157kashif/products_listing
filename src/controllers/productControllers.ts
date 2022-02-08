@@ -15,10 +15,8 @@ import {
 import { Request, Response } from "express";
 import multer from "multer";
 
-//const uploadFile = require("../s3");
 const router = Express.Router();
 let service = new ProductService();
-let msg = "succesful";
 
 const upload = multer({ dest: "uploads/" });
 
@@ -42,13 +40,18 @@ const s3 = new S3({
 
 // uploads a file to s3
 async function uploadFile(file: any) {
+  console.log(file);
   const fileStream = await fs.createReadStream(file.path);
-
+  if (file.mimetype === "image/png") {
+    file.filename = file.filename.concat(".png");
+  } else {
+    file.filename = file.filename.concat(".jpg");
+  }
   const uploadParams = {
     Bucket: "products-list-app",
     Body: fileStream,
     Key: file.filename,
-    Conditions: ["Content-Type", "image/jpeg"],
+    ContentType: file.mimetype,
   };
   //console.log("uploadparams:", uploadParams);
 
@@ -83,7 +86,7 @@ export class ProductController {
     console.log("done with uploading");
 
     const url = result.Location;
-    //console.log("urllocation:", url);
+    console.log("urllocation:", url);
 
     //creating product object
     const prod = Product.create({
@@ -91,7 +94,7 @@ export class ProductController {
       description,
       imageURL: url,
     });
-    prod.imageURL = prod.imageURL.concat(".jpg");
+    // prod.imageURL = prod.imageURL.concat(".jpg");
 
     response.set("Access-Control-Allow-Origin", "*");
 
@@ -118,8 +121,8 @@ export class ProductController {
   @Get("/products/:id")
   async getone(@Param("id") id: number, @Res() res: Response) {
     const product = await service.getSingleProduct(id);
-    //console.log(product);
-
+    console.log(product);
+    res.set("Access-Control-Allow-Origin", "*");
     return res.json(product);
   }
 }

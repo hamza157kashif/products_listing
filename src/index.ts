@@ -1,48 +1,21 @@
-import { Connection, createConnection } from "typeorm";
-import Express from "express";
-import { Product } from "./enitities/Product";
-import { ProductCategory } from "./enitities/ProductCategory";
 import "reflect-metadata";
-import { ProductController } from "./controllers/productControllers";
-import { createExpressServer } from "routing-controllers";
-import cors from "cors";
+import {createConnection} from "typeorm";
+import {User} from "./entity/User";
 
-// const corsOptions ={
-//    origin:'*',
-//    credentials:true,            //access-control-allow-credentials:true
-//    optionSuccessStatus:200,
-// }
+createConnection().then(async connection => {
 
-const app = createExpressServer({
-  cors: true,
-  controllers: [ProductController],
-});
-const main = async () => {
-  try {
-    await createConnection({
-      type: "postgres",
-      host: "localhost",
-      port: 5432,
-      username: "postgres",
-      password: "hamza",
-      database: "productLists",
-      entities: [Product, ProductCategory],
-      synchronize: true,
-    });
+    console.log("Inserting a new user into the database...");
+    const user = new User();
+    user.firstName = "Timber";
+    user.lastName = "Saw";
+    user.age = 25;
+    await connection.manager.save(user);
+    console.log("Saved a new user with id: " + user.id);
 
-    app.use(cors);
-    app.use(Express.json());
-    console.log("connected to db");
+    console.log("Loading users from the database...");
+    const users = await connection.manager.find(User);
+    console.log("Loaded users: ", users);
 
-    app.listen(8080, () => {
-      console.log("Server running at 8080");
-    });
-  } catch (error) {
-    console.error(error);
-    console.log("sending error");
+    console.log("Here you can setup and run express/koa/any other framework.");
 
-    throw new Error("unable to connect db");
-  }
-};
-
-main();
+}).catch(error => console.log(error));
